@@ -32,7 +32,7 @@ class AuthController extends Controller
         //attempt login
         if (!Auth::attempt($credentials)) {
             //when login attempt fails
-            return response()->json(["error"=>__('api.auth.failed')], 401);
+            return response()->json(["error"=>__('api.auth.failed.login')], 401);
         }
         //when login attempt succeeds
         $success['token'] = Auth::user()->createToken('Personal Access Token')->accessToken;
