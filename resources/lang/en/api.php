@@ -21,4 +21,8 @@ return [
         ],
     ],
 
+    'resource' => [
+        'notfound' => "The selected :resource with id=:id not found",
+    ]
+
 ];

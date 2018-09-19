@@ -23,11 +23,17 @@ class CourseController extends Controller
     /**
      * return details of specific course
      * @param Request $request
-     * @param $id
+     * @param $course_id
      * @return CourseResource|\Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, Course $course)
+    public function show(Request $request, $course_id)
     {
+        //if counrse not found
+        $course = Course::find($course_id);
+        if (!$course) {
+            return response()->json(["error"=>["message"=> __('api.resource.notfound', ["resource"=>"course", "id"=>$course_id])]], 404);
+        }
+
         return new CourseResource($course);
     }
 
@@ -45,12 +51,17 @@ class CourseController extends Controller
     /**
      * this would delete the object
      * @param Request $request
-     * @param Course $course
+     * @param $course_id
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
      */
-    public function delete(Request $request, Course $course)
+    public function delete(Request $request, $course_id)
     {
+        //if counrse not found
+        $course = Course::find($course_id);
+        if (!$course) {
+            return response()->json(["error"=>["message"=> __('api.resource.notfound', ["resource"=>"course", "id"=>$course_id])]], 404);
+        }
+        //delte the resource
         $course->delete();
         return response()->json(null, 204);
     }
@@ -58,11 +69,16 @@ class CourseController extends Controller
     /**
      * update the course
      * @param Request $request
-     * @param Course $course
-     * @return CourseResource
+     * @param $course_id
+     * @return CourseResource|\Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Course $course)
+    public function update(Request $request, $course_id)
     {
+        //if counrse not found
+        $course = Course::find($course_id);
+        if (!$course) {
+            return response()->json(["error"=>["message"=> __('api.resource.notfound', ["resource"=>"course", "id"=>$course_id])]], 404);
+        }
         $course->update($request->all());
         return new CourseResource($course);
     }

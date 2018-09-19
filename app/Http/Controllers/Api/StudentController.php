@@ -23,11 +23,17 @@ class StudentController extends Controller
     /**
      * return details of specific student
      * @param Request $request
-     * @param $id
+     * @param $student_id
      * @return StudentResource|\Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, Student $student)
+    public function show(Request $request, $student_id)
     {
+        //if counrse not found
+        $student = Student::find($student_id);
+        if (!$student) {
+            return response()->json(["error"=>["message"=> __('api.resource.notfound', ["resource"=>"student", "id"=>$student_id])]], 404);
+        }
+
         return new StudentResource($student);
     }
 
@@ -45,12 +51,17 @@ class StudentController extends Controller
     /**
      * this would delete the object
      * @param Request $request
-     * @param Student $student
+     * @param $student_id
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
      */
-    public function delete(Request $request, Student $student)
+    public function delete(Request $request, $student_id)
     {
+        //if counrse not found
+        $student = Student::find($student_id);
+        if (!$student) {
+            return response()->json(["error"=>["message"=> __('api.resource.notfound', ["resource"=>"student", "id"=>$student_id])]], 404);
+        }
+        //delte the resource
         $student->delete();
         return response()->json(null, 204);
     }
@@ -58,12 +69,18 @@ class StudentController extends Controller
     /**
      * update the student
      * @param Request $request
-     * @param Student $student
-     * @return StudentResource
+     * @param $student_id
+     * @return StudentResource|\Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Student $student)
+    public function update(Request $request, $student_id)
     {
+        //if counrse not found
+        $student = Student::find($student_id);
+        if (!$student) {
+            return response()->json(["error"=>["message"=> __('api.resource.notfound', ["resource"=>"student", "id"=>$student_id])]], 404);
+        }
         $student->update($request->all());
+        $student->save();
         return new StudentResource($student);
     }
 

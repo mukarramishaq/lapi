@@ -23,11 +23,17 @@ class TeacherController extends Controller
     /**
      * return details of specific teacher
      * @param Request $request
-     * @param $id
+     * @param $teacher_id
      * @return TeacherResource|\Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, Teacher $teacher)
+    public function show(Request $request, $teacher_id)
     {
+        //if counrse not found
+        $teacher = Teacher::find($teacher_id);
+        if (!$teacher) {
+            return response()->json(["error"=>["message"=> __('api.resource.notfound', ["resource"=>"teacher", "id"=>$teacher_id])]], 404);
+        }
+
         return new TeacherResource($teacher);
     }
 
@@ -45,12 +51,17 @@ class TeacherController extends Controller
     /**
      * this would delete the object
      * @param Request $request
-     * @param Teacher $teacher
+     * @param $teacher_id
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
      */
-    public function delete(Request $request, Teacher $teacher)
+    public function delete(Request $request, $teacher_id)
     {
+        //if counrse not found
+        $teacher = Teacher::find($teacher_id);
+        if (!$teacher) {
+            return response()->json(["error"=>["message"=> __('api.resource.notfound', ["resource"=>"teacher", "id"=>$teacher_id])]], 404);
+        }
+        //delte the resource
         $teacher->delete();
         return response()->json(null, 204);
     }
@@ -58,11 +69,16 @@ class TeacherController extends Controller
     /**
      * update the teacher
      * @param Request $request
-     * @param Teacher $teacher
-     * @return TeacherResource
+     * @param $teacher_id
+     * @return TeacherResource|\Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Teacher $teacher)
+    public function update(Request $request, $teacher_id)
     {
+        //if counrse not found
+        $teacher = Teacher::find($teacher_id);
+        if (!$teacher) {
+            return response()->json(["error"=>["message"=> __('api.resource.notfound', ["resource"=>"teacher", "id"=>$teacher_id])]], 404);
+        }
         $teacher->update($request->all());
         return new TeacherResource($teacher);
     }
