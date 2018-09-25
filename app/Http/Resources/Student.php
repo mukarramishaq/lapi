@@ -15,11 +15,14 @@ class Student extends JsonResource
     public function toArray($request)
     {
         return array(
+            'type' => 'students',
             'id' => $this->id,
-            'name' => $this->name,
-            'roll_no' => $this->roll_no,
-            'update_at' => $this->updated_at,
-            'created_at' => $this->created_at,
+            'attributes' => [
+                'name' => $this->name,
+                'roll_no' => $this->roll_no,
+                'created_at' =>$this->created_at->toAtomString(),
+                'updated_at' =>$this->updated_at->toAtomString()
+            ],
         );
     }
 }
