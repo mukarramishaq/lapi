@@ -44,7 +44,8 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $student = Student::create($request->all());
+	\Log::info($request->all()['data']['attributes']);
+        $student = Student::create($request->all()['data']['attributes']);
         return new StudentResource($student);
     }
 
@@ -79,7 +80,7 @@ class StudentController extends Controller
         if (!$student) {
             return response()->json(["error"=>["message"=> __('api.resource.notfound', ["resource"=>"student", "id"=>$student_id])]], 404);
         }
-        $student->update($request->all());
+        $student->update($request->all()['data']['attributes']);
         $student->save();
         return new StudentResource($student);
     }

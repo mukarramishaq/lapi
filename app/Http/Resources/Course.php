@@ -15,11 +15,14 @@ class Course extends JsonResource
     public function toArray($request)
     {
         return array(
+            'type' => 'courses',
             'id' => $this->id,
-            'name' => $this->name,
-            'credit_hours' => $this->credit_hours,
-            'update_at' => $this->updated_at,
-            'created_at' => $this->created_at,
+            'attributes' => [
+                'name' => $this->name,
+                'credit_hours' => $this->credit_hours,
+                'created_at' =>$this->created_at->toAtomString(),
+                'updated_at' =>$this->updated_at->toAtomString()
+            ],
         );
     }
 }
