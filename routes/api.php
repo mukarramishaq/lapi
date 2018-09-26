@@ -17,26 +17,28 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['auth:api'], function(){
+Route::group([
+	'middleware' => ['api', 'cors'],
+	], function(){
 
     /**********  Student endpoints  ************/
     Route::get('/students', 'Api\StudentController@index');
     Route::get('/students/{student_id}', 'Api\StudentController@show');
-    Route::patch('/students/{student_id}', 'Api\StudentController@update');
+    Route::put('/students/{student_id}', 'Api\StudentController@update');
     Route::post('/students', 'Api\StudentController@store');
     Route::delete('/students/{student_id}', 'Api\StudentController@delete');
 
     /**********  Course endpoints  ************/
     Route::get('/courses', 'Api\CourseController@index');
     Route::get('/courses/{course_id}', 'Api\CourseController@show');
-    Route::patch('/courses/{course_id}', 'Api\CourseController@update');
+    Route::put('/courses/{course_id}', 'Api\CourseController@update');
     Route::post('/courses', 'Api\CourseController@store');
     Route::delete('/courses/{course_id}', 'Api\CourseController@delete');
 
     /**********  Teacher endpoints  ************/
     Route::get('/teachers', 'Api\TeacherController@index');
     Route::get('/teachers/{teacher_id}', 'Api\TeacherController@show');
-    Route::patch('/teachers/{teacher_id}', 'Api\TeacherController@update');
+    Route::put('/teachers/{teacher_id}', 'Api\TeacherController@update');
     Route::post('/teachers', 'Api\TeacherController@store');
     Route::delete('/teachers/{teacher_id}', 'Api\TeacherController@delete');
 

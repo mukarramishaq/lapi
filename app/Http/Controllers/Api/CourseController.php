@@ -44,7 +44,8 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        $course = Course::create($request->all());
+	\Log::info($request->all()['data']['attributes']);
+        $course = Course::create($request->all()['data']['attributes']);
         return new CourseResource($course);
     }
 
@@ -79,7 +80,10 @@ class CourseController extends Controller
         if (!$course) {
             return response()->json(["error"=>["message"=> __('api.resource.notfound', ["resource"=>"course", "id"=>$course_id])]], 404);
         }
-        $course->update($request->all());
+        $course->update($request->all()['data']['attributes']);
+        $course->save();
         return new CourseResource($course);
     }
+
+
 }

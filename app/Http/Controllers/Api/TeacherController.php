@@ -44,7 +44,8 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        $teacher = Teacher::create($request->all());
+    \Log::info($request->all()['data']['attributes']);
+        $teacher = Teacher::create($request->all()['data']['attributes']);
         return new TeacherResource($teacher);
     }
 
@@ -79,7 +80,10 @@ class TeacherController extends Controller
         if (!$teacher) {
             return response()->json(["error"=>["message"=> __('api.resource.notfound', ["resource"=>"teacher", "id"=>$teacher_id])]], 404);
         }
-        $teacher->update($request->all());
+        $teacher->update($request->all()['data']['attributes']);
+        $teacher->save();
         return new TeacherResource($teacher);
     }
+
+
 }
